@@ -16,7 +16,9 @@ class ViewController: UIViewController {
     @IBAction func onLogin(_ sender: Any) {
         if let _ = emailTextField.text, let _ = passwordTextField.text {
             if (emailTextField.text == "admin" && emailTextField.text == passwordTextField.text) {
-                //switch screen
+                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let homeViewController = storyBoard.instantiateViewController(withIdentifier: "homeViewController") as! HomeViewController
+                self.present(homeViewController, animated: true, completion: nil)
             }else {
                 let alertController = UIAlertController(title: "Authentication falied", message: "Unable to login, please check your email/password.", preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
