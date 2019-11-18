@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource {
+class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
     lazy var lignes: [Int] = self.getMetroLines()
@@ -19,18 +19,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             temp.append(i + 1)
         }
         return temp
-    }
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return lignes.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return "\(lignes[row])"
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -45,43 +33,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         return cell
     }
     
-    var horraires: [Float] = [2, 6, 10]
-    
-    @IBOutlet weak var progress: UIProgressView!
-    @IBOutlet weak var buttonPrevious: UIButton!
-    @IBOutlet weak var buttonNext: UIButton!
-    @IBOutlet weak var buttonAdd: UIButton!
-    
-    @IBAction func next(_ sender: Any) {
-        progress.progress += 1/2
-        if (progress.progress == 1){
-            buttonNext.isHidden = true
-            buttonAdd.isHidden = false
-        }else {
-            buttonAdd.isHidden = true
-            buttonNext.isHidden = false
-            buttonPrevious.isHidden = false
-        }
-    }
-    @IBAction func previous(_ sender: Any) {
-        progress.progress -= 1/2
-        if (progress.progress == 0){
-            buttonPrevious.isHidden = true
-        }else {
-            buttonAdd.isHidden = true
-            buttonNext.isHidden = false
-            buttonPrevious.isHidden = false
-        }
-    }
-    
     @IBAction func onAdd(_ sender: Any) {
-    }
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        progress.progress = 0
-        buttonAdd.isHidden = true
-        buttonPrevious.isHidden = true
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let homeViewController = storyBoard.instantiateViewController(withIdentifier: "homeViewController") as! HomeViewController
+        self.present(homeViewController, animated: true, completion: nil)
     }
 }
