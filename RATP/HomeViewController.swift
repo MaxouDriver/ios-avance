@@ -8,32 +8,53 @@
 
 import UIKit
 import FirebaseCore
+import Alamofire
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    struct APIResponse: Codable {
+        let result: Result
+    }
     
-    var lignes: [Ligne] = []
-    struct Ligne {
-        let code, direction, station: String
-        init(code: String, direction:String, station:String) {
-            self.code=code
-            self.direction = direction
-            self.station = station
+    // MARK: - Result
+    struct Result: Codable {
+        let schedules: [Schedule]
+    }
+    
+    // MARK: - Rer
+    struct Schedule: Codable {
+        let code, message, destination: String
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { timer in
+            for (index, element) in Favourites.lignes.enumerated() {
+            Alamofire.request("https://api-ratp.pierre-grimaud.fr/v4/schedules/rers/\(element.code)/\(element.station)/\(element.direction)").response { response in
+                    guard let data = response.data else { return }
+                    do {
+                        let decoder = JSONDecoder()
+                        let apiResponse = try decoder.decode(APIResponse.self, from: data)
+                        Favourites.updateTimeOnLine(index: index, time: apiResponse.result.schedules[0].message)
+                        self.table.reloadData()
+                    } catch let error {
+                        print(error)
+                    }
+                }
+            }
         }
     }
     
     @IBOutlet weak var table: UITableView!
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("count reevaluted")
-        print(lignes)
-        print(lignes.count)
-        return lignes.count
+        return Favourites.lignes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Label", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Label", for: indexPath) as! LineViewCell
         
-        cell.textLabel?.text = "\(indexPath.row)"
+        cell.name?.text = "\(Favourites.lignes[indexPath.row].station)"
+        cell.nextTrain?.text = Favourites.lignes[indexPath.row].next
         
         return cell
     }
@@ -41,10 +62,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func addLine(code: String, direction: String, station: String) {
         
         
-        var temp: [Ligne] = []
-        temp.append(Ligne(code: code, direction: direction, station: station))
-        self.lignes = temp
-        print(self.lignes)
+        Favourites.addLigne(code: code, direction: direction, station: station)
         self.table.reloadData()
     }
     
