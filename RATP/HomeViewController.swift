@@ -7,21 +7,26 @@
 //
 
 import UIKit
+import FirebaseCore
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    
-    lazy var lignes: [Int] = self.getMetroLines()
-    
-    func getMetroLines() -> [Int]{
-        var temp: [Int] = []
-        for i in 0...17 {
-            temp.append(i + 1)
+    var lignes: [Ligne] = []
+    struct Ligne {
+        let code, direction, station: String
+        init(code: String, direction:String, station:String) {
+            self.code=code
+            self.direction = direction
+            self.station = station
         }
-        return temp
     }
     
+    @IBOutlet weak var table: UITableView!
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("count reevaluted")
+        print(lignes)
+        print(lignes.count)
         return lignes.count
     }
     
@@ -33,9 +38,20 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         return cell
     }
     
+    func addLine(code: String, direction: String, station: String) {
+        
+        
+        var temp: [Ligne] = []
+        temp.append(Ligne(code: code, direction: direction, station: station))
+        self.lignes = temp
+        print(self.lignes)
+        self.table.reloadData()
+    }
+    
     @IBAction func onAdd(_ sender: Any) {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let homeViewController = storyBoard.instantiateViewController(withIdentifier: "homeViewController") as! HomeViewController
-        self.present(homeViewController, animated: true, completion: nil)
+        let addStationViewController = storyBoard.instantiateViewController(withIdentifier: "addStationViewController") as! AddStationViewController
+        addStationViewController.homeViewController = self
+        self.present(addStationViewController, animated: true, completion: nil)
     }
 }

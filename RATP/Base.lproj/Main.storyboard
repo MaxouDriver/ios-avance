@@ -100,10 +100,7 @@
                         <viewLayoutGuide key="safeArea" id="shn-Je-aJv"/>
                     </view>
                     <connections>
-                        <outlet property="buttonAdd" destination="mHa-ld-rTS" id="wQL-xb-HBc"/>
-                        <outlet property="buttonNext" destination="KpU-Qe-z2s" id="mE8-pF-gyr"/>
-                        <outlet property="buttonPrevious" destination="cDv-z4-ype" id="bFR-Ba-HXB"/>
-                        <outlet property="progress" destination="HTZ-xJ-tHN" id="Crc-OZ-ovx"/>
+                        <outlet property="table" destination="ccA-bb-D99" id="2M3-ru-XiR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rtM-gC-7mh" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -111,69 +108,83 @@
             </objects>
             <point key="canvasLocation" x="740.57971014492762" y="137.94642857142856"/>
         </scene>
-        <!--View Controller-->
+        <!--Add Station View Controller-->
         <scene sceneID="G34-Xa-I9Y">
             <objects>
-                <viewController id="Wk0-0e-hje" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="addStationViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Wk0-0e-hje" customClass="AddStationViewController" customModule="RATP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="02Y-cx-eFI">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vlL-je-ZV7">
-                                <rect key="frame" x="31" y="239" width="353" height="164"/>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="HTZ-xJ-tHN">
+                                <rect key="frame" x="62" y="118" width="290" height="2"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="HTZ-xJ-tHN">
-                                        <rect key="frame" x="31" y="23" width="290" height="2"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </progressView>
-                                    <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qCZ-ON-djT">
-                                        <rect key="frame" x="52" y="33" width="248" height="131"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                        <connections>
-                                            <outlet property="dataSource" destination="I0u-sX-nIu" id="zes-U3-mYm"/>
-                                            <outlet property="delegate" destination="I0u-sX-nIu" id="kaa-Ty-gsX"/>
-                                        </connections>
-                                    </pickerView>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cDv-z4-ype">
-                                        <rect key="frame" x="16" y="83" width="30" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="&lt;"/>
-                                        <connections>
-                                            <action selector="previous:" destination="I0u-sX-nIu" eventType="touchUpInside" id="NXd-VW-XUu"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KpU-Qe-z2s">
-                                        <rect key="frame" x="308" y="83" width="30" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="&gt;"/>
-                                        <connections>
-                                            <action selector="next:" destination="I0u-sX-nIu" eventType="touchUpInside" id="df2-yK-c9r"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mHa-ld-rTS">
-                                        <rect key="frame" x="314" y="134" width="32" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="ADD"/>
-                                        <connections>
-                                            <action selector="onAdd:" destination="I0u-sX-nIu" eventType="touchUpInside" id="1I7-bd-SmD"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" red="0.89861965673575128" green="0.89861965673575128" blue="0.89861965673575128" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="displayP3"/>
-                                <gestureRecognizers/>
+                            </progressView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cDv-z4-ype">
+                                <rect key="frame" x="20" y="459" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="&lt;"/>
                                 <connections>
-                                    <outletCollection property="gestureRecognizers" destination="SOU-cL-hBJ" appends="YES" id="dhD-MR-9HM"/>
+                                    <action selector="onPrevious:" destination="Wk0-0e-hje" eventType="touchUpInside" id="1aC-gk-Ozj"/>
                                 </connections>
-                            </view>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KpU-Qe-z2s">
+                                <rect key="frame" x="364" y="459" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="&gt;"/>
+                                <connections>
+                                    <action selector="onNext:" destination="Wk0-0e-hje" eventType="touchUpInside" id="O2I-ll-hU7"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mHa-ld-rTS">
+                                <rect key="frame" x="363" y="832" width="32" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="ADD"/>
+                                <connections>
+                                    <action selector="onAdd:" destination="Wk0-0e-hje" eventType="touchUpInside" id="5zI-bY-sHH"/>
+                                </connections>
+                            </button>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qCZ-ON-djT">
+                                <rect key="frame" x="45" y="261" width="325" height="426"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Wk0-0e-hje" id="M4e-AE-Q27"/>
+                                    <outlet property="delegate" destination="Wk0-0e-hje" id="0nA-Bo-PmF"/>
+                                </connections>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HWK-Et-8BW">
+                                <rect key="frame" x="45" y="256" width="325" height="436"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Wk0-0e-hje" id="DmX-s6-ORs"/>
+                                    <outlet property="delegate" destination="Wk0-0e-hje" id="Tzw-iG-6li"/>
+                                </connections>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5N1-E2-7I3">
+                                <rect key="frame" x="45" y="261" width="325" height="426"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Wk0-0e-hje" id="81o-yA-noH"/>
+                                    <outlet property="delegate" destination="Wk0-0e-hje" id="2OL-3A-6dj"/>
+                                </connections>
+                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="Nts-lM-ZHJ"/>
                     </view>
+                    <connections>
+                        <outlet property="buttonAdd" destination="mHa-ld-rTS" id="e7O-PU-vlf"/>
+                        <outlet property="buttonNext" destination="KpU-Qe-z2s" id="x45-a3-R19"/>
+                        <outlet property="buttonPrevious" destination="cDv-z4-ype" id="qN9-fg-1di"/>
+                        <outlet property="destinationPicker" destination="5N1-E2-7I3" id="UGM-Ok-f9d"/>
+                        <outlet property="linePicker" destination="qCZ-ON-djT" id="K4J-FU-b2F"/>
+                        <outlet property="progress" destination="HTZ-xJ-tHN" id="Bm6-gM-rdG"/>
+                        <outlet property="stationPicker" destination="HWK-Et-8BW" id="ah6-P1-Bpm"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hib-u1-DLL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1464" y="138"/>
+            <point key="canvasLocation" x="1462.3188405797102" y="137.94642857142856"/>
         </scene>
     </scenes>
 </document>
